@@ -1,29 +1,49 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+  <div id="app" class="grid-container">
+    <CanvasContainer msg="Welcome to Your Vue.js + TypeScript App" />
+    <Controls />
+    <Code />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import HelloWorld from "./components/HelloWorld.vue";
+import CanvasContainer from "./components/Canvas.vue";
+import Controls from "./components/Controls.vue";
+import Code from "./components/Code.vue";
 
 @Component({
   components: {
-    HelloWorld
+    CanvasContainer,
+    Controls,
+    Code
   }
 })
 export default class App extends Vue {}
 </script>
 
 <style lang="scss">
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  display: grid;
+  width: 100vw;
+  height: 100vh;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 500px;
+  grid-template-rows: 1fr 1fr 500px;
+  gap: 0px 0px;
+  grid-template-areas:
+    "Canvas Canvas Canvas Controls"
+    "Canvas Canvas Canvas Controls"
+    "Canvas Canvas Canvas Code";
 }
 </style>
