@@ -9,10 +9,12 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import eventBus from "@/eventBus";
 import ParticlesScene from "@/phaser/Particles-Scene";
 
+let emitter: undefined | Phaser.GameObjects.Particles.ParticleEmitter;
+
 @Component
 export default class Controls extends Vue {
-  alphaValue = 0.5;
   phaserReady = false || Boolean(this.$scene);
+  alphaValue = 0.5;
 
   get alpha() {
     return this.alphaValue;
@@ -20,13 +22,13 @@ export default class Controls extends Vue {
 
   set alpha(value) {
     this.alphaValue = value;
-    this.$scene.emitter?.setAlpha(value);
+    emitter?.setAlpha(value);
   }
 
-  mounted() {
-    console.log('here');
+  beforeMount() {
     eventBus.$on("phaser-ready", () => {
       this.$scene = this.$game.scene.getScene("Particles") as ParticlesScene;
+      emitter = this.$scene.emitter;
       this.phaserReady = true;
     });
   }
