@@ -1,5 +1,6 @@
 import Phaser from "phaser";
-import Particles from "@/phaser/particles";
+import Particles from "@/phaser/Particles-Scene";
+import Vue from "vue";
 
 declare const process: {
   env: {
@@ -26,6 +27,9 @@ const config: Phaser.Types.Core.GameConfig & extraConfig = {
   scene: [Particles]
 };
 
-export default (parent: HTMLElement) => {
-  new Phaser.Game({ ...config, parent });
+export default (parent: HTMLElement): Phaser.Game => {
+  const game = new Phaser.Game({ ...config, parent });
+  Vue.prototype.$game = game;
+  Vue.prototype.$scene = game.scene.getScene("Particles");
+  return game;
 };

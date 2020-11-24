@@ -1,21 +1,26 @@
 import { Scene } from "phaser";
+import eventBus from "@/eventBus";
 
-export default class Intro extends Scene {
+export default class ParticlesScene extends Scene {
+  public particles?: Phaser.GameObjects.Particles.ParticleEmitterManager;
+  public emitter?: Phaser.GameObjects.Particles.ParticleEmitter;
+
   constructor() {
     super({
-      key: "particles",
+      key: "Particles",
       active: true
     });
   }
+
   preload() {
     this.load.setBaseURL("https://labs.phaser.io");
     this.load.image("logo", "assets/sprites/phaser3-logo.png");
     this.load.image("red", "assets/particles/red.png");
   }
-  create() {
-    const particles = this.add.particles("red");
 
-    const emitter = particles.createEmitter({});
+  create() {
+    this.particles = this.add.particles("red");
+    this.emitter = this.particles.createEmitter({});
 
     const logo = this.physics.add.image(400, 100, "logo");
 
@@ -23,7 +28,9 @@ export default class Intro extends Scene {
     logo.setBounce(1, 1);
     logo.setCollideWorldBounds(true);
 
-    emitter.startFollow(logo);
+    this.emitter.startFollow(logo);
+
+    eventBus.$emit("phaser-ready");
 
     // this.scale.on("resize", (gameSize: any) => {});
   }

@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="grid-container">
-    <CanvasContainer msg="Welcome to Your Vue.js + TypeScript App" />
+    <CanvasContainer />
     <Controls />
     <Code />
   </div>
@@ -26,14 +26,13 @@ export default class App extends Vue {}
 html, body {
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: grid;
-  width: 100vw;
-  height: 100vh;
 }
 
 .grid-container {

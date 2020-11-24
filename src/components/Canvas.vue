@@ -4,14 +4,14 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import startPhaser from "@/phaser/canvas";
+import game from "@/phaser/Game";
 
 @Component
 export default class CanvasContainer extends Vue {
   @Prop() private msg!: string;
 
   mounted() {
-    startPhaser(this.$el as HTMLElement);
+    game(this.$el as HTMLElement);
   }
 }
 </script>
