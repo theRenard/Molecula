@@ -7,26 +7,46 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import CanvasContainer from "./components/Canvas.vue";
-import Controls from "./components/Controls.vue";
-import Code from "./components/Code.vue";
+import { Component, Vue } from 'vue-property-decorator';
+import eventBus from '@/eventBus';
+import ParticlesScene from '@/phaser/Particles-Scene';
+import CanvasContainer from './components/Canvas.vue';
+import Controls from './components/Controls.vue';
+import Code from './components/Code.vue';
 
 @Component({
   components: {
     CanvasContainer,
     Controls,
-    Code
-  }
+    Code,
+  },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  mounted() {
+    eventBus.$on('phaser-ready', () => {
+      Vue.prototype.$scene = this.$game.scene.getScene(
+        'Particles',
+      ) as ParticlesScene;
+      Vue.prototype.$particles = this.$scene.particles;
+      Vue.prototype.$emitter = this.$scene.emitter;
+      Vue.prototype.$sprite = this.$scene.sprite;
+      this.$store.commit('PHASER_IS_READY', true);
+      this.$store.commit('GENERATE_EMITTER_JSON');
+      this.$emitter.start();
+      console.log(Object.getOwnPropertyNames(this.$scene.emitter));
+    });
+  }
+}
 </script>
 
 <style lang="scss">
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB,
+    Microsoft YaHei, SimSun, sans-serif;
 }
 
 #app {
